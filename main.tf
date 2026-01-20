@@ -1,16 +1,21 @@
-provider "aws" {
-  region = "us-east-1"
-}
-
-resource "aws_instance" "devops_server" {
-  ami           = "ami-0c55b159cbfafe1f0" # Exemple d'AMI Ubuntu
-  instance_type = "t2.micro"
-
-  tags = {
-    Name = "Jenkins-Deployed-EC2"
+terraform {
+  required_providers {
+    docker = {
+      source  = "kreuzwerker/docker"
+      version = "~> 3.0.1"
+    }
   }
 }
 
-output "instance_ip" {
-  value = aws_instance.devops_server.public_ip
+provider "docker" {}
+
+resource "docker_image" "ubuntu_server" {
+  name         = "ubuntu:latest"
+  keep_locally = true
+}
+
+resource "docker_container" "simulated_server" {
+  image = docker_image.ubuntu_server.image_id
+  name  = "serveur-devoir-devops"
+  start = true
 }

@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-id')
-        AWS_CREDENTIALS = credentials('aws-id')
     }
 
     stages {
