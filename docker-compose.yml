@@ -1,0 +1,8 @@
+version: '3'
+services:
+  front:
+    build: ./App_front
+    image: votre-username-dockerhub/app-front:latest
+  back:
+    build: ./App_back
+    image: votre-username-dockerhub/app-back:latest
