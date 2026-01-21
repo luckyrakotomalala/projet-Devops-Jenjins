@@ -15,30 +15,30 @@ pipeline {
         stage('Infrastructure - Terraform') {
             steps {
                 dir('terraform') {
-                    sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
+                    bat'terraform init'
+                    bat'terraform apply -auto-approve'
                 }
             }
         }
 
         stage('Security Scan - Trivy') {
             steps {
-                sh 'trivy config App_front/'
-                sh 'trivy config App_back/'
+                bat 'trivy config App_front/'
+                bat 'trivy config App_back/'
             }
         }
 
         stage('Build & Push Docker') {
             steps {
-                sh 'docker-compose build'
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'docker-compose push'
+                bat 'docker-compose build'
+                bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                bat 'docker-compose push'
             }
         }
 
         stage('Configuration - Ansible') {
             steps {
-                sh 'ansible-playbook -i inventory.ini playbook.yml'
+                bat'ansible-playbook -i inventory.ini playbook.yml'
             }
         }
     }
